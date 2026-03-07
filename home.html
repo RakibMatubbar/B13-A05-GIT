@@ -28,10 +28,38 @@
 </head>
 
 <body>
+
+    <!-- Header: -->
+    <header class="flex flex-col md:flex-row justify-between items-center bg-gray-100 rounded-md p-6 space-y-4">
+
+        <!-- Header Logo | Text: -->
+        <div class="flex justify-center items-center gap-3">
+            <img src="./assets/github-logo.png" alt="" class="w-[30px]">
+            <h3 class="font-bold text-2xl text-[#1F2937]">GitHub Issues Tracker</h3>
+        </div>
+
+        <!-- Header Searching Field & Btn: daisyUI -->
+        <div class="flex justify-center items-center gap-2">
+            <div>
+                <label class="input validator join-item">
+                    <input id="input-search" type="search" placeholder="Search Issue..." required />
+                </label>
+            </div>
+
+            <div>
+                <button id="btn-search" class="btn btn-primary join-item">+ New Issue</button>
+            </div>
+        </div>
+
+    </header>
+
     
 
 
+
+
     <!-- JS Link: -->
+    <script src="script/machine.js"></script>
     <script src="script/home.js"></script>
 </body>
 
