@@ -28,7 +28,55 @@
 </head>
 
 <body>
-    
+
+    <!-- Login Field: -->
+    <div class="w-[520px] mx-auto bg-gray-100 rounded-md my-10">
+
+        <!-- Login Heading + Img: -->
+        <div class="flex flex-col justify-center items-center p-6">
+            <img src="./assets/github-logo.png" alt="" class="w-[80px]">
+            <h3 class="font-bold text-2xl text-[#1F2937]">GitHub Issues Tracker</h3>
+            <p class="text-[#64748B]">Sign in to manage your issues</p>
+        </div>
+
+        <!-- Login Form: daisyUI -->
+        <div>
+
+            <fieldset class="fieldset p-8">
+
+                <label class="label">Username</label>
+                <input id="sign-in-username" type="text" class="input w-full" placeholder="Enter Username" />
+                <p class="text-blue-500 mb-2">Default: admin</p>
+
+                <label class="label">Password</label>
+                <input id="sign-in-password" type="password" class="input w-full" placeholder="Enter Password" />
+                <p class="text-blue-500 mb-2">Default: admin123</p>
+
+                <button id="sign-in-btn" class="btn btn-primary mt-4">Sign In</button>
+
+            </fieldset>
+
+        </div>
+
+        <!-- HR Text With OR: -->
+        <div class="flex items-center gap-4 px-8">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="text-gray-500 font-medium">OR</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <!-- Demo: -->
+        <div class="p-8">
+            <div class="bg-[#F8FAFC] rounded-md p-4 flex flex-col justify-center items-center">
+                <p class="text-[#64748B]">Demo Credential:</p>
+                <p><span class="font-bold">Username: </span>admin</p>
+                <p><span class="font-bold">Password: </span>admin123</p>
+            </div>
+
+        </div>
+
+    </div>
+
 
 
     <!-- JS Link: -->
