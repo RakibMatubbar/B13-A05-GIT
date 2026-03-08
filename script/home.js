@@ -33,7 +33,11 @@ const displayAllIssues = (issues) => {
         const topBorder = issue.status === "open" ? "border-t-green-500" : "border-t-purple-500";
 
         // Priority Based Data's Style:
-        const priorityStyle = issue.priority === "high" ? "bg-red-100 text-red-500" : issue.priority === "medium" ? "bg-yellow-100 text-yellow-600" : "bg-gray-100 text-gray-600";
+        const priorityStyle = issue.priority === "high" 
+            ? "bg-red-100 text-red-500" 
+            : issue.priority === "medium" 
+            ? "bg-yellow-100 text-yellow-500" 
+            : "bg-gray-100 text-gray-500";
 
         // Priority Based Set Icon:
         const priorityIcon = issue.status === "closed"
@@ -44,6 +48,9 @@ const displayAllIssues = (issues) => {
         // Dynamic Card Design According to Figma:
         dynamicCard.classList = `flex flex-col gap-3 bg-white border border-t-4 ${topBorder} rounded-xl p-4 shadow-sm`;
 
+        // Set Issue ID as Data Attribute(For Egent Delegation):
+        dynamicCard.dataset.id = issue.id;
+        
         // Dynamic Card's Data fetch from API:
         dynamicCard.innerHTML = `
             
@@ -59,11 +66,11 @@ const displayAllIssues = (issues) => {
 
             <div class="flex gap-2 flex-wrap">
                 ${issue.labels.map(label => {
-            const { style, icon } = labelStyle(label);
+                const { style, icon } = labelStyle(label);
 
-            return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
+                return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
                     ${icon} ${label}</span>`;
-        }).join('')}
+                }).join('')}
             </div>
 
             <hr class="border-gray-300 my-2">
@@ -75,7 +82,7 @@ const displayAllIssues = (issues) => {
         `;
 
         // append allContainer to dynamicCard to Show:
-        allContainer.append(dynamicCard.cloneNode(true));
+        allContainer.append(dynamicCard);
 
         // Conditional Statment With cloneNode Based on Status:
         if (issue.status === "open") {
@@ -89,6 +96,8 @@ const displayAllIssues = (issues) => {
 // Call The Function to Load Data:
 loadAllIssues();
 
+
+// Tab Buttons:
 
 
 // Search by: TITLE | PRIORITY | STATUS | LABELS:
@@ -115,7 +124,7 @@ document.getElementById("btn-search").addEventListener("click", () => {
             issue.title.toLowerCase().includes(searchValue) ||
             issue.priority.toLowerCase().includes(searchValue) ||
             issue.status.toLowerCase().includes(searchValue) ||
-            issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels Array For this: (some):
+            issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels = Array. For this: (some):
         );
 
         // To Disply Search Value into Containers:
@@ -132,5 +141,6 @@ document.getElementById("input-search").addEventListener("keyup", (event) => {
         document.getElementById("btn-search").click();
     };
 });
+
 
 

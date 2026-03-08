@@ -87,3 +87,98 @@ const labelStyle = (label) =>{
 };
 
 
+
+// GET ALL THE CONTAINER TO SET MODAL: 
+document.getElementById("all-container-data").addEventListener("click", (event) =>{
+    const card = event.target.closest("[data-id]");
+
+    if(card){
+        openIssueModal(card.dataset.id);
+    };
+});
+
+document.getElementById("open-container-data").addEventListener("click", (event) =>{
+    const card = event.target.closest("[data-id]");
+
+    if(card){
+        openIssueModal(card.dataset.id);
+    };
+});
+
+document.getElementById("closed-container-data").addEventListener("click", (event) =>{
+    const card = event.target.closest("[data-id]");
+
+    if(card){
+        openIssueModal(card.dataset.id);
+    };
+});
+
+
+
+// DATA FETCH FROM API & CHANGE DYNAMICALLY: TEMPLATE STRING URL:
+const openIssueModal = (issueId) =>{
+
+    const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`;
+
+    fetch(url)
+        .then((res) => res.json())
+        .then((json) =>{
+
+        // Get API's Data:
+        const issue = json.data;
+
+        // Same as Card Desing for Modal: Status:
+        const statusStyle = issue.status === "open"
+        ? "bg-green-500 text-white"
+        : "bg-purple-500 text-white";
+            
+        // Same as Card Desing for Modal: Priority:
+        const priorityStyle = issue.priority === "high" 
+            ? "bg-red-500 text-white" 
+            : issue.priority === "medium" 
+            ? "bg-yellow-500 text-white" 
+            : "bg-gray-500 text-white";
+            
+        // Get id to Set Card's Data into Modal:
+        modalContent = document.getElementById("modal-content");
+
+        // Set innerHTML: Diffrent from Card Design:
+        modalContent.innerHTML = `
+
+        <h3 class="text-xl font-bold text-gray-800 mb-3">${issue.title}</h3>
+
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                <span class="font-bold px-2 py-1 rounded-full capitalize ${statusStyle}">${issue.status}</span>
+                <span> - Opened by ${issue.author}</span>
+                <span> - ${new Date(issue.updatedAt).toLocaleDateString()}</span>
+            </div>
+
+            <div class="flex gap-2 flex-wrap mb-4">
+                ${issue.labels.map(label => {
+                    const { style, icon } = labelStyle(label);
+                    return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}">
+                        ${icon} ${label}
+                    </span>`;
+                }).join('')}
+            </div>
+
+            <p class="text-gray-500 text-sm mb-4">${issue.description}</p>
+
+            <div class="flex justify-evenly bg-gray-200 p-2 rounded-md gap-10">
+                <div>
+                    <p class="text-gray-500 text-sm">Assignee:</p>
+                    <p class="font-bold text-black">${issue.author}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Priority:</p>
+                    <span class="font-bold px-3 py-1 rounded-full uppercase text-sm ${priorityStyle}">${issue.priority}</span>
+                </div>
+            </div>
+        `;
+
+        // Call showModal() to Show this(Which is Clicked) within The Modal Card:
+        document.getElementById("issue-modal").showModal();
+    });
+};
+
+
