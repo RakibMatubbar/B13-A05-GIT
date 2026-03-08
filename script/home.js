@@ -1,4 +1,8 @@
 
+// Default Tab Set as ALl:
+let currentTab = "all";
+
+
 // Declare Func to Load All Data From API:
 const loadAllIssues = () => {
 
@@ -33,11 +37,11 @@ const displayAllIssues = (issues) => {
         const topBorder = issue.status === "open" ? "border-t-green-500" : "border-t-purple-500";
 
         // Priority Based Data's Style:
-        const priorityStyle = issue.priority === "high" 
-            ? "bg-red-100 text-red-500" 
-            : issue.priority === "medium" 
-            ? "bg-yellow-100 text-yellow-500" 
-            : "bg-gray-100 text-gray-500";
+        const priorityStyle = issue.priority === "high"
+            ? "bg-red-100 text-red-500"
+            : issue.priority === "medium"
+                ? "bg-yellow-100 text-yellow-500"
+                : "bg-gray-100 text-gray-500";
 
         // Priority Based Set Icon:
         const priorityIcon = issue.status === "closed"
@@ -50,7 +54,7 @@ const displayAllIssues = (issues) => {
 
         // Set Issue ID as Data Attribute(For Egent Delegation):
         dynamicCard.dataset.id = issue.id;
-        
+
         // Dynamic Card's Data fetch from API:
         dynamicCard.innerHTML = `
             
@@ -66,11 +70,11 @@ const displayAllIssues = (issues) => {
 
             <div class="flex gap-2 flex-wrap">
                 ${issue.labels.map(label => {
-                const { style, icon } = labelStyle(label);
+            const { style, icon } = labelStyle(label);
 
-                return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
+            return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
                     ${icon} ${label}</span>`;
-                }).join('')}
+        }).join('')}
             </div>
 
             <hr class="border-gray-300 my-2">
@@ -91,13 +95,30 @@ const displayAllIssues = (issues) => {
             closedContainer.append(dynamicCard.cloneNode(true));
         };
     });
+
+
+    // Get All/Open/Closed Containers Children Length:
+    const allCount = allContainer.children.length;
+    const openCount = openContainer.children.length;
+    const closedCount = closedContainer.children.length;
+
+    // Where The Dynamic Data Stored: Get id:
+    const counter = document.getElementById("counting-calculator");
+    
+    // Conditional Statment For Counting Cards.
+    if (currentTab === "all") {
+        counter.innerText = allCount + " Issues";
+    } else if (currentTab === "open") {
+        counter.innerText = openCount + " Issues";
+    } else if (currentTab === "closed") {
+        counter.innerText = closedCount + " Issues";
+    };
+
 };
 
 // Call The Function to Load Data:
 loadAllIssues();
 
-
-// Tab Buttons:
 
 
 // Search by: TITLE | PRIORITY | STATUS | LABELS:
@@ -107,11 +128,6 @@ document.getElementById("btn-search").addEventListener("click", () => {
     const input = document.getElementById("input-search");
     const searchValue = input.value.trim().toLowerCase();
 
-    if (!searchValue) {
-        loadAllIssues();
-        return;
-    }
-
     // For Searching fech API Data Dynamically:
     const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
@@ -119,20 +135,20 @@ document.getElementById("btn-search").addEventListener("click", () => {
         .then((res) => res.json())
         .then((json) => {
 
-        // Filterd By Title, priority, status, labels:
-        const filterByTitle = json.data.filter((issue)=>
-            issue.title.toLowerCase().includes(searchValue) ||
-            issue.priority.toLowerCase().includes(searchValue) ||
-            issue.status.toLowerCase().includes(searchValue) ||
-            issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels = Array. For this: (some):
-        );
+            // Filterd By Title, priority, status, labels:
+            const filterByTitle = json.data.filter((issue) =>
+                issue.title.toLowerCase().includes(searchValue) ||
+                issue.priority.toLowerCase().includes(searchValue) ||
+                issue.status.toLowerCase().includes(searchValue) ||
+                issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels = Array. For this: (some):
+            );
 
-        // To Disply Search Value into Containers:
-        displayAllIssues(filterByTitle);
+            // To Disply Search Value into Containers:
+            displayAllIssues(filterByTitle);
 
-        // Empty Value after Searcing:
-        input.value = "";
-    });
+            // Empty Value after Searcing:
+            input.value = "";
+        });
 });
 
 // Write word and Search by pressing Enter:

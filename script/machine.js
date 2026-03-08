@@ -3,6 +3,18 @@
 
 function showOnly(id) {
 
+    // Set Containers as Card Status for Counting Status Card Length:
+    if(id === "all-container"){
+        currentTab = "all";
+    }else if(id === "open-container"){
+        currentTab = "open";
+    } else if(id === "closed-container"){
+        currentTab = "closed";
+    }
+
+    // Auto Load Data After Clicking any BTN:
+    loadAllIssues();
+
     //  Select all Data Store's containers:
     const allCards = document.getElementById("all-container");
     const openCards = document.getElementById("open-container");
@@ -15,7 +27,7 @@ function showOnly(id) {
 
     // Show Only Which is Clicked:
     const selected = document.getElementById(id);
-    selected.classList.remove('hidden')
+    selected.classList.remove('hidden');
 };
 
 
