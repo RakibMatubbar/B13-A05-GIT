@@ -28,7 +28,7 @@ const displayAllIssues = (issues) => {
 
         // Create Element to append():
         const dynamicCard = document.createElement("div");
-        
+
         // Change Top Border's Color Accorting to Status:
         const topBorder = issue.status === "open" ? "border-t-green-500" : "border-t-purple-500";
 
@@ -36,7 +36,7 @@ const displayAllIssues = (issues) => {
         const priorityStyle = issue.priority === "high" ? "bg-red-100 text-red-500" : issue.priority === "medium" ? "bg-yellow-100 text-yellow-600" : "bg-gray-100 text-gray-600";
 
         // Priority Based Set Icon:
-        const priorityIcon = issue.status === "closed" 
+        const priorityIcon = issue.status === "closed"
             ? `<div class="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-purple-100 text-purple-500"> <i class="fa-regular fa-circle-check"></i> </div>`
 
             : `<div class="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-green-100 text-green-500"> <i class="fa-regular fa-circle-dot"></i> </div>`;
@@ -58,12 +58,12 @@ const displayAllIssues = (issues) => {
             <p class="text-sm text-gray-500">${issue.description}</p>
 
             <div class="flex gap-2 flex-wrap">
-                ${issue.labels.map(label =>{
-                    const {style, icon} = labelStyle(label);
-                    
-                    return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
+                ${issue.labels.map(label => {
+            const { style, icon } = labelStyle(label);
+
+            return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
                     ${icon} ${label}</span>`;
-                }).join('')}
+        }).join('')}
             </div>
 
             <hr class="border-gray-300 my-2">
@@ -85,6 +85,52 @@ const displayAllIssues = (issues) => {
         };
     });
 };
+
+// Call The Function to Load Data:
 loadAllIssues();
+
+
+
+// Search by: TITLE | PRIORITY | STATUS | LABELS:
+document.getElementById("btn-search").addEventListener("click", () => {
+
+    // Get Input Field Where Word Written:
+    const input = document.getElementById("input-search");
+    const searchValue = input.value.trim().toLowerCase();
+
+    if (!searchValue) {
+        loadAllIssues();
+        return;
+    }
+
+    // For Searching fech API Data Dynamically:
+    const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+
+    fetch(url)
+        .then((res) => res.json())
+        .then((json) => {
+
+        // Filterd By Title, priority, status, labels:
+        const filterByTitle = json.data.filter((issue)=>
+            issue.title.toLowerCase().includes(searchValue) ||
+            issue.priority.toLowerCase().includes(searchValue) ||
+            issue.status.toLowerCase().includes(searchValue) ||
+            issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels Array For this: (some):
+        );
+
+        // To Disply Search Value into Containers:
+        displayAllIssues(filterByTitle);
+
+        // Empty Value after Searcing:
+        input.value = "";
+    });
+});
+
+// Write word and Search by pressing Enter:
+document.getElementById("input-search").addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+        document.getElementById("btn-search").click();
+    };
+});
 
 

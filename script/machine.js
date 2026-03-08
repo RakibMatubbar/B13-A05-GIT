@@ -49,12 +49,11 @@ headerBtnContaienr.addEventListener("click", (event) => {
     else if(btnContainer.id === "closed-btn") {
         btnContainer.classList.add('bg-purple-600', 'text-white');
     }
-
 });
 
 
 
-// API's Lebel Design with Icon:
+// API's LEBEL DESING WITH ICON:
 const labelStyle = (label) =>{
 
    if(label === "bug")
@@ -80,7 +79,7 @@ const labelStyle = (label) =>{
         style: "bg-green-100 text-green-500 border-green-200",
         icon: `<i class="fa-solid fa-file"></i>`
     };
-    
+
     return { 
         style: "bg-green-100 text-green-500 border-green-200", 
         icon: `<i class="fa-solid fa-file"></i>` 
@@ -88,5 +87,3 @@ const labelStyle = (label) =>{
 };
 
 
-
-    
