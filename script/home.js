@@ -6,13 +6,25 @@ let currentTab = "all";
 // Declare Func to Load All Data From API:
 const loadAllIssues = () => {
 
+    // Spinner Func Within machine.js :
+    manageSpinner(true);
+
     // Get Data by Using fetch():
     const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
     fetch(url)
         .then((res) => res.json())
-        .then((json) => displayAllIssues(json.data));
+        .then((json) => {
+
+        // Set Json Data into diplayAllIssues Func:
+        displayAllIssues(json.data);
+
+        // Set false within manageSpinner Func:
+        manageSpinner(false);
+    });
 };
+
+
 
 // Declare Func to Display API's Data;
 const displayAllIssues = (issues) => {
@@ -40,8 +52,8 @@ const displayAllIssues = (issues) => {
         const priorityStyle = issue.priority === "high"
             ? "bg-red-100 text-red-500"
             : issue.priority === "medium"
-                ? "bg-yellow-100 text-yellow-500"
-                : "bg-gray-100 text-gray-500";
+            ? "bg-yellow-100 text-yellow-500"
+            : "bg-gray-100 text-gray-500";
 
         // Priority Based Set Icon:
         const priorityIcon = issue.status === "closed"
@@ -104,7 +116,7 @@ const displayAllIssues = (issues) => {
 
     // Where The Dynamic Data Stored: Get id:
     const counter = document.getElementById("counting-calculator");
-    
+
     // Conditional Statment For Counting Cards.
     if (currentTab === "all") {
         counter.innerText = allCount + " Issues";
@@ -113,7 +125,6 @@ const displayAllIssues = (issues) => {
     } else if (currentTab === "closed") {
         counter.innerText = closedCount + " Issues";
     };
-
 };
 
 // Call The Function to Load Data:
@@ -128,6 +139,9 @@ document.getElementById("btn-search").addEventListener("click", () => {
     const input = document.getElementById("input-search");
     const searchValue = input.value.trim().toLowerCase();
 
+    // Call Spinner Func within machine.js :
+    manageSpinner(true);
+
     // For Searching fech API Data Dynamically:
     const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
@@ -135,20 +149,23 @@ document.getElementById("btn-search").addEventListener("click", () => {
         .then((res) => res.json())
         .then((json) => {
 
-            // Filterd By Title, priority, status, labels:
-            const filterByTitle = json.data.filter((issue) =>
-                issue.title.toLowerCase().includes(searchValue) ||
-                issue.priority.toLowerCase().includes(searchValue) ||
-                issue.status.toLowerCase().includes(searchValue) ||
-                issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels = Array. For this: (some):
-            );
+        // Filterd By Title, priority, status, labels:
+        const filterByTitle = json.data.filter((issue) =>
+            issue.title.toLowerCase().includes(searchValue) ||
+            issue.priority.toLowerCase().includes(searchValue) ||
+            issue.status.toLowerCase().includes(searchValue) ||
+            issue.labels.some((label) => label.toLowerCase().includes(searchValue)) // Labels = Array. For this: (some):
+        );
 
-            // To Disply Search Value into Containers:
-            displayAllIssues(filterByTitle);
+        // To Disply Search Value into Containers:
+        displayAllIssues(filterByTitle);
 
-            // Empty Value after Searcing:
-            input.value = "";
-        });
+        // Empty Value after Searcing:
+        input.value = "";
+
+        // Set false in manageSpinner Func:
+        manageSpinner(false);
+    });
 });
 
 // Write word and Search by pressing Enter:

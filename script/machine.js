@@ -4,11 +4,11 @@
 function showOnly(id) {
 
     // Set Containers as Card Status for Counting Status Card Length:
-    if(id === "all-container"){
+    if (id === "all-container") {
         currentTab = "all";
-    }else if(id === "open-container"){
+    } else if (id === "open-container") {
         currentTab = "open";
-    } else if(id === "closed-container"){
+    } else if (id === "closed-container") {
         currentTab = "closed";
     }
 
@@ -40,87 +40,120 @@ const headerBtnContaienr = document.getElementById("header-btn-container");
 headerBtnContaienr.addEventListener("click", (event) => {
     const btnContainer = event.target.closest("button");
 
-    if(!btnContainer) {
+    if (!btnContainer) {
         return;
     }
 
     // To remove Colors by using for...of:
     const allButtons = headerBtnContaienr.querySelectorAll("button");
 
-    for(const button of allButtons){
+    for (const button of allButtons) {
         button.classList.remove('bg-blue-600', 'bg-green-600', 'bg-purple-600', 'text-white');
     }
 
     // Add Colors After Clicking:
-    if(btnContainer.id === "all-btn") {
+    if (btnContainer.id === "all-btn") {
         btnContainer.classList.add('bg-blue-600', 'text-white');
     }
-    else if(btnContainer.id === "open-btn") {
+    else if (btnContainer.id === "open-btn") {
         btnContainer.classList.add('bg-green-600', 'text-white');
     }
-    else if(btnContainer.id === "closed-btn") {
+    else if (btnContainer.id === "closed-btn") {
         btnContainer.classList.add('bg-purple-600', 'text-white');
     }
 });
 
 
+// SPINNER | LOADING FUNCTION:
+const manageSpinner = (status) => {
+
+    // Get Spinner id From HTML to Exicute:
+    const spinner = document.getElementById("spinner");
+
+    // Get Data Store's Parant Container to Hidden When its Loading:
+    const allContainer = document.getElementById("all-container");
+    const openContainer = document.getElementById("open-container");
+    const closedContainer = document.getElementById("closed-container");
+
+    // Conditional Statement to add or remove hidden class:
+    if (status === true) {
+        spinner.classList.remove("hidden");
+        allContainer.classList.add("hidden");
+        openContainer.classList.add("hidden");
+        closedContainer.classList.add("hidden");
+    } else {
+        // Hidden Spinner:
+        spinner.classList.add("hidden");
+
+        // Show Container According to currentTab:
+        if (currentTab === "all") {
+            allContainer.classList.remove("hidden");
+        } else if (currentTab === "open") {
+            openContainer.classList.remove("hidden");
+        } else if (currentTab === "closed") {
+            closedContainer.classList.remove("hidden");
+        };
+    };
+};
+
+
 
 // API's LEBEL DESING WITH ICON:
-const labelStyle = (label) =>{
+const labelStyle = (label) => {
 
-   if(label === "bug")
-    return{
-        style: "bg-red-100 text-red-500 border-red-200",
-        icon: `<i class="fa-solid fa-bug"></i>`
-    };
+    if (label === "bug")
+        return {
+            style: "bg-red-100 text-red-500 border-red-200",
+            icon: `<i class="fa-solid fa-bug"></i>`
+        };
 
-   if(label === "help wanted")
-    return{
-        style: "bg-yellow-100 text-yellow-500 border-yellow-200",
-        icon: `<i class="fa-solid fa-hand-holding-hand"></i>`
-    };
+    if (label === "help wanted")
+        return {
+            style: "bg-yellow-100 text-yellow-500 border-yellow-200",
+            icon: `<i class="fa-solid fa-hand-holding-hand"></i>`
+        };
 
-   if(label === "enhancement")
-    return{
-        style: "bg-green-100 text-green-500 border-green-200",
-        icon: `<i class="fa-solid fa-arrow-up-right-dots"></i>`
-    };
+    if (label === "enhancement")
+        return {
+            style: "bg-green-100 text-green-500 border-green-200",
+            icon: `<i class="fa-solid fa-arrow-up-right-dots"></i>`
+        };
 
-   if(label === "documentation")
-    return{
+    if (label === "documentation")
+        return {
+            style: "bg-green-100 text-green-500 border-green-200",
+            icon: `<i class="fa-solid fa-file"></i>`
+        };
+
+    return {
         style: "bg-green-100 text-green-500 border-green-200",
         icon: `<i class="fa-solid fa-file"></i>`
-    };
-
-    return { 
-        style: "bg-green-100 text-green-500 border-green-200", 
-        icon: `<i class="fa-solid fa-file"></i>` 
     };
 };
 
 
 
 // GET ALL THE CONTAINER TO SET MODAL: 
-document.getElementById("all-container-data").addEventListener("click", (event) =>{
+document.getElementById("all-container-data").addEventListener("click", (event) => {
     const card = event.target.closest("[data-id]");
 
-    if(card){
+    if (card) {
         openIssueModal(card.dataset.id);
     };
 });
 
-document.getElementById("open-container-data").addEventListener("click", (event) =>{
+document.getElementById("open-container-data").addEventListener("click", (event) => {
     const card = event.target.closest("[data-id]");
 
-    if(card){
+    if (card) {
         openIssueModal(card.dataset.id);
     };
 });
 
-document.getElementById("closed-container-data").addEventListener("click", (event) =>{
+document.getElementById("closed-container-data").addEventListener("click", (event) => {
     const card = event.target.closest("[data-id]");
 
-    if(card){
+    if (card) {
         openIssueModal(card.dataset.id);
     };
 });
@@ -128,29 +161,29 @@ document.getElementById("closed-container-data").addEventListener("click", (even
 
 
 // DATA FETCH FROM API & CHANGE DYNAMICALLY: TEMPLATE STRING URL:
-const openIssueModal = (issueId) =>{
+const openIssueModal = (issueId) => {
 
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`;
 
     fetch(url)
         .then((res) => res.json())
-        .then((json) =>{
+        .then((json) => {
 
         // Get API's Data:
         const issue = json.data;
 
         // Same as Card Desing for Modal: Status:
         const statusStyle = issue.status === "open"
-        ? "bg-green-500 text-white"
-        : "bg-purple-500 text-white";
-            
+            ? "bg-green-500 text-white"
+            : "bg-purple-500 text-white";
+
         // Same as Card Desing for Modal: Priority:
-        const priorityStyle = issue.priority === "high" 
-            ? "bg-red-500 text-white" 
-            : issue.priority === "medium" 
-            ? "bg-yellow-500 text-white" 
+        const priorityStyle = issue.priority === "high"
+            ? "bg-red-500 text-white"
+            : issue.priority === "medium"
+            ? "bg-yellow-500 text-white"
             : "bg-gray-500 text-white";
-            
+
         // Get id to Set Card's Data into Modal:
         modalContent = document.getElementById("modal-content");
 
@@ -167,11 +200,11 @@ const openIssueModal = (issueId) =>{
 
             <div class="flex gap-2 flex-wrap mb-4">
                 ${issue.labels.map(label => {
-                    const { style, icon } = labelStyle(label);
-                    return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}">
+                const { style, icon } = labelStyle(label);
+                return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}">
                         ${icon} ${label}
                     </span>`;
-                }).join('')}
+            }).join('')}
             </div>
 
             <p class="text-gray-500 text-sm mb-4">${issue.description}</p>

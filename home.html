@@ -11,8 +11,8 @@
 
     <!-- Font-Awesome Icon: -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- daisyUI + Tailwind: -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Header Searching Field & Btn: daisyUI -->
-        <div class="flex justify-center items-center gap-2">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2">
             <div>
                 <label class="input validator join-item">
                     <input id="input-search" type="search" placeholder="Search Issue..." required />
@@ -52,8 +52,7 @@
             </div>
 
             <div>
-                <button id="btn-search" class="btn btn-primary join-item"> <i class="fa-solid fa-plus"></i> New
-                    Issue</button>
+                <button id="btn-search" class="btn btn-primary join-item"> <i class="fa-solid fa-plus"></i> New Issue</button>
             </div>
         </div>
 
@@ -63,20 +62,17 @@
     <section class="w-11/12 mx-auto bg-gray-100 mt-8 p-4 rounded-md">
 
         <div id="header-btn-container">
-            <button onclick="showOnly('all-container')" id="all-btn"
-                class="btn col-span-2 text-white bg-blue-600 hover:bg-blue-600 hover:text-white">All</button>
+            <button onclick="showOnly('all-container')" id="all-btn" class="btn col-span-2 text-white bg-blue-600 hover:bg-blue-600 hover:text-white">All</button>
 
-            <button onclick="showOnly('open-container')" id="open-btn"
-                class="btn text-[#002C5C] hover:bg-green-600 hover:text-white">Open</button>
+            <button onclick="showOnly('open-container')" id="open-btn" class="btn text-[#002C5C] hover:bg-green-600 hover:text-white">Open</button>
 
-            <button onclick="showOnly('closed-container')" id="closed-btn"
-                class="btn text-[#002C5C] hover:bg-purple-600 hover:text-white">Closed</button>
+            <button onclick="showOnly('closed-container')" id="closed-btn" class="btn text-[#002C5C] hover:bg-purple-600 hover:text-white">Closed</button>
         </div>
 
     </section>
 
     <!-- Card Counter Section: -->
-    <section class="w-11/12 mx-auto flex justify-between items-center bg-gray-100 shadow-lg my-2 p-4 rounded-md">
+    <section class="w-11/12 mx-auto flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-100 shadow-lg my-2 p-4 rounded-md">
 
         <div class="flex justify-center items-center gap-2">
             <div class="w-[40px] h-[40px] flex justify-center items-center bg-purple-300 rounded-full">
@@ -95,28 +91,30 @@
 
     </section>
 
+    <!-- Spinner | Loading: -->
+    <section id="spinner" class="text-center p-6 hidden">
+        <span class="loading loading-spinner text-success"></span>
+    </section>
+
     <!-- ALl Data Store Section: -->
     <section id="all-container" class="w-11/12 mx-auto bg-gray-100 p-4 rounded-md">
 
-        <div id="all-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="all-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> </div>
 
-        </div>
     </section>
 
     <!-- Open Data Store Section: -->
     <section id="open-container" class="w-11/12 mx-auto bg-gray-100 mt-2 p-4 rounded-md hidden">
 
-        <div id="open-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="open-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> </div>
 
-        </div>
     </section>
 
     <!-- Closed Data Store Section: -->
     <section id="closed-container" class="w-11/12 mx-auto bg-gray-100 mt-2 p-4 rounded-md hidden">
 
-        <div id="closed-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="closed-container-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> </div>
 
-        </div>
     </section>
 
     <!-- Modal | Card Details Section: -->
@@ -126,9 +124,7 @@
             <div class="modal-box">
 
                 <!-- Dynamic Content Sotre Here: -->
-                <div id="modal-content">
-
-                </div>
+                <div id="modal-content"> </div>
 
                 <div class="modal-action">
                     <form method="dialog">
