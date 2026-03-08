@@ -58,10 +58,15 @@ const displayAllIssues = (issues) => {
             <p class="text-sm text-gray-500">${issue.description}</p>
 
             <div class="flex gap-2 flex-wrap">
-    
+                ${issue.labels.map(label =>{
+                    const {style, icon} = labelStyle(label);
+                    
+                    return `<span class="text-[10px] font-bold border px-2 py-1 rounded-full uppercase ${style}"> 
+                    ${icon} ${label}</span>`;
+                }).join('')}
             </div>
 
-            <hr class="border-gray-100 my-2">
+            <hr class="border-gray-300 my-2">
 
             <div class="flex flex-col text-gray-400">
                 <span>#${issue.id} by ${issue.author}</span>

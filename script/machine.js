@@ -54,3 +54,39 @@ headerBtnContaienr.addEventListener("click", (event) => {
 
 
 
+// API's Lebel Design with Icon:
+const labelStyle = (label) =>{
+
+   if(label === "bug")
+    return{
+        style: "bg-red-100 text-red-500 border-red-200",
+        icon: `<i class="fa-solid fa-bug"></i>`
+    };
+
+   if(label === "help wanted")
+    return{
+        style: "bg-yellow-100 text-yellow-500 border-yellow-200",
+        icon: `<i class="fa-solid fa-hand-holding-hand"></i>`
+    };
+
+   if(label === "enhancement")
+    return{
+        style: "bg-green-100 text-green-500 border-green-200",
+        icon: `<i class="fa-solid fa-arrow-up-right-dots"></i>`
+    };
+
+   if(label === "documentation")
+    return{
+        style: "bg-green-100 text-green-500 border-green-200",
+        icon: `<i class="fa-solid fa-file"></i>`
+    };
+    
+    return { 
+        style: "bg-green-100 text-green-500 border-green-200", 
+        icon: `<i class="fa-solid fa-file"></i>` 
+    };
+};
+
+
+
+    
